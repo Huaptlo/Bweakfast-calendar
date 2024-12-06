@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalenterisovellus</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Pieni Kalenterisovellus</h1>
+    <form action="/add_note" method="post">
+        <label for="date">Valitse päivämäärä:</label>
+        <input type="date" id="date" name="date" required>
+        <label for="name">Nimesi:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Lisää</button>
+    </form>
+    <h2>Nykyinen ja ensi viikko:</h2>
+    <div class="calendar-grid">
+        {% for day in week_dates %}
+        <div class="day-box">
+            <div class="day-header">{{ format_date_box(day) }}</div>
+            <div class="day-content">
+                {% for person in filtered_data[day] %}
+                <div class="person">{{ person }}</div>
+                {% endfor %}
+                {% if not filtered_data[day] %}
+                <div class="no-data">Ei ilmoitettuja</div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
