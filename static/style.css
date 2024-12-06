@@ -20,7 +20,7 @@ form label, form input, form button {
 
 .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 10px;
     max-width: 1000px;
     margin: 0 auto;
@@ -55,4 +55,9 @@ form label, form input, form button {
 .no-data {
     color: #999;
     font-style: italic;
+}
+
+.highlight {
+    background-color: #ffd700; /* Gold highlight for the most participants */
+    border: 2px solid #ffa500; /* Orange border */
 }
