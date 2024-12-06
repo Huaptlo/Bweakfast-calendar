@@ -3,7 +3,12 @@ from datetime import datetime, timedelta, date
 import locale
 
 # Set locale to Finnish
-locale.setlocale(locale.LC_TIME, 'fi_FI.UTF-8')
+import locale
+
+try:
+    locale.setlocale(locale.LC_TIME, 'fi_FI.UTF-8')
+except locale.Error:
+    locale.setlocale(locale.LC_TIME, 'C')  # Use the default locale as a fallback
 
 app = Flask(__name__)
 
