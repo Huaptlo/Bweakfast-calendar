@@ -1,14 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from datetime import datetime, timedelta, date
-import locale
+import json
+import os
 
-# Set locale to Finnish
-import locale
-
-try:
-    locale.setlocale(locale.LC_TIME, 'fi_FI.UTF-8')
-except locale.Error:
-    locale.setlocale(locale.LC_TIME, 'C')  # Use the default locale as a fallback
 
 app = Flask(__name__)
 
@@ -21,6 +15,20 @@ fi_months = [
     "toukokuu", "kesäkuu", "heinäkuu", "elokuu",
     "syyskuu", "lokakuu", "marraskuu", "joulukuu"
 ]
+
+DATA_FILE = "calendar_data.json"
+
+def save_data(data):
+    with open(DATA_FILE, "w") as f:
+        json.dump(data, f)
+
+def load_data():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r") as f:
+            return json.load(f)
+    return {}
+
+calendar_data = load_data()
 
 def format_date_box(date_obj):
     weekday = fi_days[date_obj.weekday()]
@@ -65,7 +73,6 @@ def add_note():
     date = request.form['date']
     name = request.form['name']
 
-    # Validate that the name contains only letters
     if not name.isalpha():
         return redirect(url_for('calendar'))
 
@@ -74,6 +81,8 @@ def add_note():
             calendar_data[date].append(name)
     else:
         calendar_data[date] = [name]
+    
+    save_data(calendar_data)
     return redirect(url_for('calendar'))
 
 if __name__ == "__main__":
