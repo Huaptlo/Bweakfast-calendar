@@ -15,9 +15,17 @@ app = Flask(__name__)
 # Data structure to store notes
 calendar_data = {}
 
+fi_days = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"]
+fi_months = [
+    "tammikuu", "helmikuu", "maaliskuu", "huhtikuu",
+    "toukokuu", "kesäkuu", "heinäkuu", "elokuu",
+    "syyskuu", "lokakuu", "marraskuu", "joulukuu"
+]
+
 def format_date_box(date_obj):
-    """Format a date object as a short Finnish date (e.g., 'Ma 22.11')."""
-    return date_obj.strftime('%a %d.%m').capitalize()
+    weekday = fi_days[date_obj.weekday()]
+    month = fi_months[date_obj.month - 1]
+    return f"{weekday} {date_obj.day}.{month}"
 
 def get_week_dates(start_date):
     """Generate a list of dates for the current week and next week."""
